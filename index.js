@@ -27,12 +27,16 @@ function createAddWindow(){
     title:'Add New todo'
   });
   addWindow.loadURL(`file://${__dirname}/addTodo.html`);
+  addWindow.on('closed',()=>{
+    addWindow=null;
+  })
 }
 //event liisterner for todo:add event from addTodod.html
 ipcMain.on('todo:add',(event,todo)=>{
   mainWindow.webContents.send('todo:add',todo);
   addWindow.close();
-  addWindow = null;
+  //to prevent the memory leak
+  //addWindow = null;
 });
 
 //create a menu template
@@ -73,6 +77,9 @@ if(process.env.NODE_ENV !== 'production' ){
   menuTemplate.push({
     label:'View',
     submenu:[
+      {
+        role:'reload'
+      },
       {
         label:'Toggle Developer Tools',
         accelerator: process.platform === 'darwin' ? 'Command+I' : 'Ctrl+Shift+I',
