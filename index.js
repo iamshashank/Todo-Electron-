@@ -51,6 +51,12 @@ const menuTemplate = [
         }
       },
       {
+        label:'Clear All Todo\'s',
+        click(){
+          mainWindow.webContents.send('todo:clear');
+        }
+      },
+      {
         label: 'Quit',
         //hot keys for closiiing window works diifferently for mac and windows
         accelerator:(()=>{
